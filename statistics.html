@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/statistics.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Ventas Comida Casera</title>
+</head>
+<body>
+    <div class="header">
+        <a href="./cgi-bin/home.py"><h1 class="header-title">Ventas de Comida Casera</h1></a>
+        <ul class="nav-bar">
+            <li class="nav-item"><a class="nav-link" href="./event_form.html">Informar evento</a></li>
+            <li class="nav-item"><a class="nav-link" href="./cgi-bin/event_list.py?page=0">Listado de eventos</a></li>
+            <li class="nav-item"><a class="nav-link" href="./statistics.html">Estadisticas</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="info-box">
+            <div class="text-box">
+                <h1>Estadisticas</h1>
+                <p>Aquí tienes las estadisticas calculadas en base a los eventos registrados</p>           
+            </div>
+            <div class="image-container">
+                <img src="./img/line_chart.png" alt="line_chart">
+                <img src="./img/pie_chart.png" alt="line_chart">
+                <img src="./img/bar_chart.png" alt="line_chart">
+            </div>
+            <div class="btn-container">
+                <a class="statistics-btn" id="home-btn" href="./cgi-bin/home.py">Volver a la portada</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="footer"></div>
+</body>
+</html>

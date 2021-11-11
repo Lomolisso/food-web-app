@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/event_form.css">
+    <link rel="stylesheet" href="./styles/pop_up.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Informar evento</title>
+</head>
+<body>
+    <div class="header">
+        <a href="./cgi-bin/home.py"><h1 class="header-title">Ventas de Comida Casera</h1></a>
+        <ul class="nav-bar">
+            <li class="nav-item"><a class="nav-link" href="./event_form.html">Informar evento</a></li>
+            <li class="nav-item"><a class="nav-link" href="./cgi-bin/event_list.py?page=0">Listado de eventos</a></li>
+            <li class="nav-item"><a class="nav-link" href="./statistics.html">Estadisticas</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <!-- INFO BOX: CAJA DEL CONTENIDO PRINCIPAL -->
+        <div class="info-box">
+            <div class="text-box">
+                <h1>Informa tu Evento</h1>
+                <p>Responde este simple formulario para registrar tu evento en el sistema.</p>           
+            </div>
+            <div id="val-notification"></div>
+            <form id="event-form" enctype="multipart/form-data" method="post" action="cgi-bin/process_input.py" onsubmit="return false;">
+                <h1 class="section-title">Información del lugar</h1>
+                <hr class="section-separator">
+                <div class="form-section">
+                    <div class="form-input">
+                        <div>
+                            <label for="region">Región</label>
+                        </div>
+                        <select name="region" id="region" onclick="loadRegions()" onchange="enableCommunes()" required>
+                            <option value="" hidden>Seleccione una región</option>
+                        </select>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="comuna">Comuna</label>
+                        </div>
+                        <select name="comuna" id="comuna" onclick="loadCommunes()" disabled required>
+                            <option value="" hidden>Seleccione una comuna</option>
+                        </select>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="sector">Sector</label>
+                        </div>
+                        <input name="sector" id="sector" type="text" size="100" maxlength="100">
+                    </div>
+                </div>
+                <h1 class="section-title">Datos del oferente</h1>
+                <hr class="section-separator">
+                <div class="form-section">
+                    <div class="form-input">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <input name="nombre" id="nombre" type="text" size="100" maxlength="200" required>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="email">Email</label>
+                        </div>
+                        <input name="email" id="email" type="text" size="100" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="celular">Número de Celular</label>
+                        </div>
+                        <input name="celular" id="celular" type="text" size="15" placeholder="+569-1234-5678">
+                    </div>
+                    <div id="social-net-container">
+                        <div class="form-input">
+                            <div>
+                                <label for="red-social">Red social</label>
+                            </div>
+                            <select name="red-social" id="red-social" onchange="handleSocialNetInput()">
+                                <option value="" hidden>Seleccione una red social</option>
+                                <option value="Twitter">Twitter</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Tiktok">Tiktok</option>
+                                <option value="Otra">Otra</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="section-title">Información del evento</h1>
+                <hr class="section-separator">
+                <div class="form-section">
+                    <div class="form-input">
+                        <div>
+                            <label for="dia-hora-inicio">Día y hora de inicio</label>
+                        </div>
+                        <input name="dia-hora-inicio" id="dia-hora-inicio" type="text" size="20" required>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="dia-hora-termino">Día y hora de término</label>
+                        </div>
+                        <input name="dia-hora-termino" id="dia-hora-termino" type="text" size="20" required>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="descripcion-evento">Descripción</label>
+                        </div>
+                        <textarea name="descripcion-evento" id="descripcion-evento" cols="50" rows="10"></textarea>
+                    </div>
+                    <div class="form-input">
+                        <div>
+                            <label for="tipo-comida">Tipo</label>
+                        </div>
+                        <select name="tipo-comida" id="tipo-comida" onclick="loadFoodTypes()" required>
+                            <option value="" hidden>Seleccione un tipo de comida</option>
+                        </select>
+                    </div>
+                    <div id="file-input-container">
+                        <div class="form-input">
+                            <div>
+                                <label for="foto-comida">Foto principal</label>
+                            </div>
+                            <div class="input-file-btns-container">
+                                <input type="file" name="file-input-0" id="foto-comida" required>
+                                <button type="button" id="add-file-input-btn" onclick="handleInputFile()">Agregar otra foto</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="send-btn" onclick="validateInputs()">Enviar información de este evento</button>
+                </div>
+            </form>
+        </div>
+        <!-- POP-UP: CONTENIDO ASOCIADO AL POP-UP -->
+        <div class="pop-up" id="pop-up">
+            <div class="pop-up-header">
+                <div id="pop-up-title">¿Está seguro que desea agregar este evento?</div>
+            </div>
+            <div id="pop-up-body" class="pop-up-body">
+                <button type="button" class="pop-up-btn" id="confirm-btn">Sí, estoy seguro</button>
+                <button type="button" class="pop-up-btn" id="regret-btn">No, no estoy seguro</button>
+            </div>
+        </div>
+        <div id="pop-up-overlay"></div>     
+    </div>
+    <script src="./javascript/fechas.js"></script>
+    <script src="./javascript/fotos_comida.js"></script>
+    <script src="./javascript/redes_sociales.js"></script>
+    <script src="./javascript/regiones_y_comunas.js"></script>
+    <script src="./javascript/tipo_comida.js"></script>
+    <script src="./javascript/pop_up.js"></script>
+    <script src="./javascript/validaciones.js"></script>
+</body>
+</html>

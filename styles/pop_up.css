@@ -1,0 +1,99 @@
+  
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+  
+.pop-up {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 500px;
+    max-width: 80%;
+    padding: 1rem;
+}
+
+.pop-up.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.pop-up-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.pop-up-header #pop-up-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pop-up-body {
+    padding: 1.2rem 5rem 0.5rem 5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#pop-up-overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#pop-up-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+.pop-up-btn {
+    padding: 0.7rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 0.3rem;
+    border-style: solid;
+    border-width: thin;
+}
+
+#home-btn {
+    background: #0095f6;
+    text-decoration: none;
+}
+
+#home-btn:hover {
+    background: #68bef8;
+}
+
+#confirm-btn {
+    font-size: 0.8rem !important;
+    background: #41b841;
+}
+
+#confirm-btn:hover {
+    background: #83eb83;
+}
+
+#regret-btn {
+    font-size: 0.8rem !important;
+    background: rgb(202, 85, 85);
+}
+
+#regret-btn:hover {
+    background: rgb(201, 131, 131);
+}
