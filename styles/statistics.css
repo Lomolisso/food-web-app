@@ -80,18 +80,11 @@ body {
 }
 
 /* -images- */
-.image-container {
+.graph-container {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-}
-
-.image-container > *{
-    border: black solid 2px;
-    border-radius: 1rem;
-    width: 70%;
-    margin: 1rem;
 }
 
 .btn-container {

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- 
 import cgi
 import cgitb
+import json
 from database import Database
 from validate import *
 
@@ -13,7 +14,7 @@ data = db.get_home_data()
 print('Content-type: text/html; charset=UTF-8')
 print('')
 
-utf8stdout.write('''
+msg = f'''
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,10 @@ utf8stdout.write('''
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/marker_popup.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -32,19 +37,19 @@ utf8stdout.write('''
         <ul class="nav-bar">
             <li class="nav-item"><a class="nav-link" href="../event_form.html">Informar evento</a></li>
             <li class="nav-item"><a class="nav-link" href="./event_list.py?page=0">Listado de eventos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../statistics.html">Estadisticas</a></li>
+            <li class="nav-item"><a class="nav-link" href="./statistics.py">Estadisticas</a></li>
         </ul>
     </div>
-    <div class="content">
+    
         <div class="info-box">
             <div class="text-box">
                 <h1>Bienvenido!</h1>
-''')
-msg = ''''''
+'''
+
 if len(data) == 0:
     msg += '''
             <p>Ups! Parece que todavia no hay eventos registados!</p>
-            <img style="padding-top: 0;" src="../img/notfound.png" height="450">'''
+            <img style="padding-top: 0;" src="../img/notfound.png" height="350">'''
 else:
     msg += '''
                 <p>Aquí tienes los últimos 5 eventos de venta de comida registrados</p>           
@@ -81,11 +86,28 @@ else:
                 </div>
             '''
 
-utf8stdout.write(msg)
-utf8stdout.write('''
+
+msg += f'''
+            <br>
+            <div class="map-container">
+                <div class="map-info-container">
+                    <h1>Mapa de eventos</h1>
+                    <p>Aquí tienes un mapa, cada comuna con eventos tendrá un marcador!</p>
+                </div>
+                <div id="map"></div>
+            </div>
         </div>
-    </div>
+    
     <div class="footer"></div>
 </body>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+<script src="../javascript/map.js"></script>
 </html>
-''')
+'''
+
+
+utf8stdout.write(msg)

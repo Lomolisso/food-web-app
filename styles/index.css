@@ -8,6 +8,13 @@ body, html {
     flex-flow: column nowrap;
 }
 
+body {
+    background-color: #cb218e;
+    background-image: linear-gradient(315deg, #cb218e 0%, #6617cb 74%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 /* header */
 .header {
     display: flex;
@@ -51,19 +58,17 @@ body, html {
 
 /* info box config. */
 .content {
-    background-color: #cb218e;
-    background-image: linear-gradient(315deg, #cb218e 0%, #6617cb 74%);
-    padding: 7rem 7rem 15rem 7rem;
     height: 100%;
+    width: 100%;
 }
 
 .info-box {
-    margin: 2% 20%;
-    padding: 1rem 4rem 4.5rem 4rem;
+    margin: 5% 20%;
     background: #E4E6EB;
     border-radius: 2.5rem;
     color: #18191A;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    padding: 1rem;
 }
 
 /* -text- */
@@ -91,6 +96,7 @@ body, html {
     justify-content: center;
     align-items: center;
     font-size: 1rem;
+    margin: 0 2rem;
 }
 
 .table-box table {
@@ -138,4 +144,33 @@ body, html {
     width: 100%;
     max-width: 150px;
     height: auto;
+}
+
+.section-separator {
+    margin: 0.5rem 0 0.5rem 0;
+    border-top: 3px solid #18191A;;
+}
+
+.map-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.map-container > * {
+    width: 80%;
+}
+
+.map-info-container {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.map-info-container p {
+    font-weight: 600;
+}
+
+#map {
+    margin: 3rem auto;
+    height: 360px;
 }

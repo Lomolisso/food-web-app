@@ -41,7 +41,7 @@ html = f'''
         <ul class="nav-bar">
             <li class="nav-item"><a class="nav-link" href="../event_form.html">Informar evento</a></li>
             <li class="nav-item"><a class="nav-link" href="./event_list.py?page=0">Listado de eventos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../statistics.html">Estadisticas</a></li>
+            <li class="nav-item"><a class="nav-link" href="./statistics.py">Estadisticas</a></li>
         </ul>
     </div>
     <div class="content">

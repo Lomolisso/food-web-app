@@ -1,15 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import mysql.connector
+import random
+import datetime
+import numpy as np
 import hashlib
 import os
 
 class Database:
     def __init__(self):
         self.db = mysql.connector.connect(
-            host="localhost",
-            user="cc500255_u",
-            password="uelacusquI",
+            host="",
+            user="",
+            password="",
             database="cc500255_db",
             port="3306"
         )
@@ -40,7 +43,7 @@ class Database:
         self.cursor.execute(sql)
         total = self.cursor.fetchall()[0][0] + 1
         file_name_hash += f"_{total}"
-        open(f"../img/{file_name_hash}", "wb").write(file_item.value)
+        open(f"img/{file_name_hash}", "wb").write(file_item.value)
         data = (f"../img/{file_name_hash}", file_name, evento_id)
         sql = '''
         INSERT INTO foto (ruta_archivo, nombre_archivo, evento_id)
@@ -79,6 +82,14 @@ class Database:
         self.cursor.execute(sql)
         return self.cursor.fetchall()[0][0]
 
+    def get_comuna_name(self, comuna_id):
+        sql = f'''
+        SELECT nombre FROM comuna WHERE id = '{comuna_id}'
+        '''
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()[0][0]
+
+
 
     ##########################################################################################
     def get_event_info(self, evento_id):
@@ -103,6 +114,19 @@ class Database:
         '''
         self.cursor.execute(sql)
         return self.cursor.fetchall()
+
+    # NOTAR QUE TODOS LOS EVENTOS TIENEN AL MENOS 1 IMAGEN, POR LO
+    # QUE PARA LOS MARCADORES BASTA RECUPERAR LA INFORMACION NECESARIA 
+    # DE TODOS LOS EVENTOS.
+    def get_event_info_marker(self):
+        sql = f'''
+        SELECT id, comuna_id, sector, dia_hora_inicio, dia_hora_termino, tipo
+        FROM evento
+        ORDER BY id ASC
+        '''
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
         
     ##########################################################################################
     
@@ -154,4 +178,86 @@ class Database:
         '''
         self.cursor.execute(sql)
         return self.cursor.fetchall()
-      
+    
+
+    #################################################
+    #               QUERYS GRAFICOS                 #
+    #################################################
+
+    # Puntos de la forma: (dia: {dd-mm-yyyy}, frec: int)
+    def get_data_graph_1(self):
+        format_date = lambda d: f"{d.year}-{d.month}-{d.day}"
+        dates = sorted([v[6] for v in self.get_eventos()])
+        
+        data = list(map(format_date, [v for v in dates]))
+        
+        x = []
+        y = []
+
+        for v in data:
+            if v not in x:
+                x.append(v)
+                y.append(1)
+            else:
+                y[x.index(v)] += 1
+
+        return [[u, v] for u,v in zip(x, y)]
+
+    def get_data_graph_2(self):
+        data = [v[9] for v in self.get_eventos()]
+        
+        x = []
+        y = []
+
+        for v in data:
+            if v not in x:
+                x.append(v)
+                y.append(1)
+            else:
+                y[x.index(v)] += 1
+
+        return [{"label": u + f": {v}", "data": v} for u,v in zip(x, y)]
+
+    def get_data_graph_3(self):
+        month_list = [
+            ["En"],
+            ["Febr"],
+            ["Mzo"],
+            ["Abr"],
+            ["My"],
+            ["Jun"],
+            ["Jul"],
+            ["Agt"],
+            ["Sep"],
+            ["Oct"],
+            [ "Nov"],
+            [ "Dic"]
+        ]
+        
+        
+        frec = [
+            list(np.zeros(12)),
+            list(np.zeros(12)),
+            list(np.zeros(12)) 
+        ]
+
+        data = [v[6] for v in self.get_eventos()]
+
+        for d in data:
+            month_index = d.month - 1
+            time_period = None
+            
+            if d.hour < 11 and d.hour >= 0:
+                time_period = 0
+            elif d.hour >= 11 and d.hour < 15:
+                time_period = 1
+            else:
+                time_period = 2
+            
+            frec[time_period][month_index] += 1
+
+        ret_1 = [[month_list[i], frec[0][i]] for i in range(0, 12)]
+        ret_2 = [[month_list[i], frec[1][i]] for i in range(0, 12)]
+        ret_3 = [[month_list[i], frec[2][i]] for i in range(0, 12)]
+        
+        return ret_1, ret_2, ret_3
